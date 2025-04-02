@@ -1,0 +1,116 @@
+<!--
+Name: Hamza Alala
+File: filename.html
+Date: 4/2/2025
+Description of the file: This file implements a Silly Story
+Generator using HTML, CSS, and JavaScript. Users can input
+a custom name, choose a region (US or UK), and generate a
+random humorous story. The story dynamically changes based
+on random selections and converts units (temperature and weight)
+for UK users.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <title>Silly Story Generator</title>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+    h1 {
+    color: #333;
+}
+    label, input, button {
+    display: block;
+    margin: 10px 0;
+}
+    button {
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+    button:hover {
+    background-color: #0056b3;
+}
+    .story {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    visibility: hidden;
+}
+</style>
+</head>
+<body>
+<h1>Silly Story Generator</h1>
+
+<label for="customName">Enter custom name:</label>
+<input id="customName" type="text" placeholder="Bob">
+
+    <div>
+        <label>
+            <input type="radio" id="us" name="region" checked>
+                US
+        </label>
+        <label>
+            <input type="radio" id="uk" name="region">
+                UK
+        </label>
+    </div>
+
+    <button class="randomize">Generate random story</button>
+
+    <p class="story"></p>
+
+    <script>
+        var customName = document.getElementById('customName');
+        var randomize = document.querySelector('.randomize');
+        var story = document.querySelector('.story');
+
+        function randomValueFromArray(array){
+        return array[Math.floor(Math.random()*array.length)];
+    }
+
+        var storyText = "It was 94 fahrenheit outside, so :insertx: went for a walk. When they got to :inserty:, they stared in horror for a few moments, then :insertz:. Bob saw the whole thing, but was not surprised — :insertx: weighs 300 pounds, and it was a hot day.";
+
+        var insertX = ["Willy the Goblin","Big Daddy","Father Christmas"];
+        var insertY = ["the soup kitchen","Disneyland","the White House"];
+        var insertZ = ["spontaneously combusted","melted into a puddle on the sidewalk","turned into a slug and crawled away"];
+
+        randomize.addEventListener('click', result);
+
+        function result() {
+        var newStory = storyText;
+
+        var xItem = randomValueFromArray(insertX);
+        var yItem = randomValueFromArray(insertY);
+        var zItem = randomValueFromArray(insertZ);
+
+        newStory = newStory.replace(/:insertx:/g, xItem);
+        newStory = newStory.replace(':inserty:', yItem);
+        newStory = newStory.replace(':insertz:', zItem);
+
+        if(customName.value !== '') {
+        var name = customName.value;
+        newStory = newStory.replace('Bob', name);
+    }
+
+        if(document.getElementById("uk").checked) {
+        var weight = Math.round(300 * 0.0714286) + " stone";
+        var temperature =  Math.round((94 - 32) * 5 / 9) + " centigrade";
+        newStory = newStory.replace('94 fahrenheit', temperature);
+        newStory = newStory.replace('300 pounds', weight);
+    }
+
+        story.textContent = newStory;
+        story.style.visibility = 'visible';
+    }
+    </script>
+</body>
+</html>
